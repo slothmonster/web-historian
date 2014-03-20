@@ -8,6 +8,7 @@ var routes = {
   "/styles.css": __dirname + '/public/styles.css',
   "/": __dirname + '/public/index.html',
   "/loading.html": __dirname + '/public/loading.html',
+  //need to fix this to handle all of the archived urls
   "/www.google.com": path.normalize(__dirname + '/../archives/sites/www.google.com')
 }
 
