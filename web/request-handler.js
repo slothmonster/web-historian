@@ -7,6 +7,7 @@ var fs = require('fs');
 var routes = {
   "/styles.css": __dirname + '/public/styles.css',
   "/": __dirname + '/public/index.html',
+  "/loading.html": __dirname + '/public/loading.html',
   "/www.google.com": path.normalize(__dirname + '/../archives/sites/www.google.com')
 }
 
@@ -14,10 +15,26 @@ exports.handleRequest = function (req, res) {
   var url = req.url;
   var route = routes[url];
   var data;
-  if(route) {
-    httpHelps.serveAssets(res, route);
-  } else {
-    res.writeHead(404, httpHelps.headers);
-    res.end();
+  if(req.method === "POST"){
+    handlePost(req, res);
+  } else { // "GET"
+    if(route) {
+      httpHelps.serveAssetsForGet(res, route);
+    } else {
+      res.writeHead(404, httpHelps.headers);
+      res.end();
+    }
   }
+};
+
+var handlePost = function(req, res){
+  //do the archiving
+  var body = "";
+  req.on("data", function(data) {
+    body += data; // Read the buffer.
+  });
+  req.on("end", function() {
+    archive.addUrlToList(body.split("url=")[1]);
+  });
+  httpHelps.serveAssetsForPost(res, routes["/loading.html"]);
 };
