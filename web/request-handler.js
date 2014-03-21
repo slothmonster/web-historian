@@ -35,7 +35,7 @@ var handlePost = function(req, res){
     body += data; // Read the buffer.
   });
   req.on("end", function() {
-    archive.addUrlToList(body.split("url=")[1]);
+    // archive.addUrlToList(body.split("url=")[1]);
+    httpHelps.serveAssetsForPost(res, body.split("url=")[1]);
   });
-  httpHelps.serveAssetsForPost(res, routes["/loading.html"]);
 };

@@ -27,11 +27,18 @@ exports.serveAssetsForGet = function(res, asset) {
 
 exports.serveAssetsForPost = function(res, asset, req) {
   headers['Content-Type'] = "text/html";
-  fs.readFile(asset, function(err, data){
+  fs.readFile(archive.paths.archivedSites + "/" + asset, function(err, data){
     if(err) {
       throw err;
     }
-    res.writeHead(302, {Location: "/loading.html"});
-    res.end();
+    archive.isUrlInList(asset, function(res){
+      exports.redirect(res, asset);
+    }, res);
   });
+};
+
+exports.redirect = redirect = function(res, target){
+  console.log("I got callbacked with target " + target);
+  res.writeHead(302, {Location: target});
+  res.end();
 };
