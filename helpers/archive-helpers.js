@@ -30,40 +30,17 @@ exports.initialize = function(pathsObj){
 exports.readListOfUrls = function(callback){
   var urls = [];
   fs.readFile(paths.list, {encoding:'utf8'}, function(err, data){
-    if(err){
-      throw err;
-    }
+    if(err){ throw err; }
     urls = data.split("\n");
-      // var urls = data.split("\n");
     callback(urls);
   });
 };
 
-exports.isUrlInList = function(targetUrl, callback, res){
-  //call readListOfUrls
-  //execute callback if/when you find it
-  //on error, throw err/return false 
+exports.isUrlInList = function(targetUrl, callback){
   exports.readListOfUrls(function(urls) {
-    // Is it in the list? 
     if(_.contains(urls, targetUrl)){
-      // It's in the list. Is it in the archive? 
-      exports.isURLArchived(targetUrl, function() {
-        // It's in the list and the archive. Good times. 
-        console.log("Imma make a callback for targetUrl: " + targetUrl);
-        console.log(callback.toString());
-        callback(res, targetUrl);
-      });
-    } else { 
-      // It's in the list, but not in the archive.
-      res.writeHead(302, {Location: "/loading.html"});
-      res.end();
+      callback(targetUrl);
     }
-    // It's not in the list. 
-    //add to list
-    exports.addUrlToList(targetUrl);
-    // redirect to loading
-    callback(res, "/loading.html");
-    res.end();
   });
 };
 
@@ -75,16 +52,13 @@ exports.addUrlToList = function(newURL){
   });
 };
 
-exports.isURLArchived = function(target, callback){
-  //try to read the file at /archives/sites/target
-  //return boolean whether exists or not
-  console.log(path.normalize(__dirname + "/../archives/sites/" + target));
+exports.isURLArchived = function(targetUrl, callback){
+  // console.log(path.normalize(__dirname + "/../archives/sites/" + target));
   fs.readFile(path.normalize(__dirname + "/../archives/sites/" + target), function(err, data){
-
     if(err){
       throw err;
     } else {
-      callback(target);
+      callback(targetUrl);
     }
   })
 };

@@ -27,14 +27,9 @@ exports.serveAssetsForGet = function(res, asset) {
 
 exports.serveAssetsForPost = function(res, asset, req) {
   headers['Content-Type'] = "text/html";
-    archive.isUrlInList(asset, function(res){
-      exports.redirect(res, asset);
-    }, res);
-  // fs.readFile(archive.paths.archivedSites + "/" + asset, function(err, data){
-  //   if(err) {
-  //     throw err;
-  //   }
-  // });
+  archive.isUrlInList(asset, function(res){
+    exports.redirect(res, asset);
+  }, res);
 };
 
 exports.redirect = redirect = function(res, target){
