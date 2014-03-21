@@ -55,15 +55,15 @@ exports.isUrlInList = function(targetUrl, callback, res){
       });
     } else { 
       // It's in the list, but not in the archive.
-      // res.writeHead(302, {Location: "/loading.html"});
-      // res.end();
+      res.writeHead(302, {Location: "/loading.html"});
+      res.end();
     }
     // It's not in the list. 
     //add to list
     exports.addUrlToList(targetUrl);
-    //redirect to loading
-    // exports.redirect(res, "/loading.html");
-    // res.end();
+    // redirect to loading
+    callback(res, "/loading.html");
+    res.end();
   });
 };
 
