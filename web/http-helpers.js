@@ -27,13 +27,13 @@ exports.serveAssetsForGet = function(res, asset) {
 
 exports.serveAssetsForPost = function(res, asset, req) {
   headers['Content-Type'] = "text/html";
-  archive.isUrlInList(asset, function(res){
-    exports.redirect(res, asset);
-  }, res);
+  archive.isUrlInList(asset, function(){
+    if()
+  })
 };
 
 exports.redirect = redirect = function(res, target){
-  console.log("I got callbacked with target " + target);
+  //console.log("I got callbacked with target " + target);
   res.writeHead(302, {Location: target});
   res.end();
 };
