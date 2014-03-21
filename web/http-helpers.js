@@ -31,7 +31,7 @@ exports.serveAssetsForPost = function(res, asset, req) {
     if(err) {
       throw err;
     }
-    res.writeHead(302, headers);
-    res.end(data);
+    res.writeHead(302, {Location: "/loading.html"});
+    res.end();
   });
 };

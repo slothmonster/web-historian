@@ -26,7 +26,7 @@ exports.initialize = function(pathsObj){
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-exports.readListOfUrls = function(func){
+exports.readListOfUrls = function(callback){
   var urls = [];
   fs.readFile(paths.list, {encoding:'utf8'}, function(err, data){
     if(err){
@@ -34,11 +34,25 @@ exports.readListOfUrls = function(func){
     }
     urls = data.split("\n");
       // var urls = data.split("\n");
-    func(urls);
+    callback(urls);
   });
 };
 
-exports.isUrlInList = function(){
+exports.isUrlInList = function(targetUrl, callback){
+  //call readListOfUrls
+  //execute callback if/when you find it
+  //on error, throw err/return false 
+  exports.readListOfUrls(function(urls) {
+    if(_.contains(urls, targetUrl)){
+      exports.isURLArchived(/*???*/){
+        //if true, redirect to archived page
+        //else redirect to loading
+      };
+    } else {
+      //add to list
+      //redirect to loading
+    }
+  });
 };
 
 exports.addUrlToList = function(newURL){
@@ -56,7 +70,13 @@ exports.downloadUrls = function(){
   httpReq.get(options, file, callback);
 };
 
-//get html copy of new page
-//archive the new page
-//add to list
-//send it back
+//check if in list
+  //if yes
+    //check if in archive
+      //if yes -> serve archived page via redirect
+      //if no -> serve loading.html via redirect
+  // if no
+    //add to list
+    //serve loading.html via redirect
+//Trust that cron is running and doing its job.
+
